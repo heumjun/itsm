@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PasswdInit">
+
+	<select id="selectUserConfirm" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap">
+		SELECT ICUI.SEQ_ID
+      		  ,ICUI.NAME
+			  ,ICUI.LOGIN_ID AS LOGIN_ID
+			  ,ICUI.LOGIN_ID || rpad(abs(dbms_random.random), 4) AS INIT_PASSWORD
+			  ,ICUI.E_MAIL AS E_MAIL
+		      ,COUNT(*) OVER() AS CNT
+		  FROM ITSM_COM_USER_INFO ICUI
+		 WHERE ICUI.LOGIN_ID = #{p_login_id}
+		   AND ICUI.QUESTION = #{p_sel_question}
+		   AND ANSWER = #{p_answer}
+  	</select>
+
+	<update id="updateUserPasswd" parameterType="java.util.Map">
+		UPDATE ITSM_COM_USER_INFO
+		   SET PASSWORD = #{init_password}
+		 WHERE SEQ_ID = #{seq_id}
+	</update>
+
+</mapper>

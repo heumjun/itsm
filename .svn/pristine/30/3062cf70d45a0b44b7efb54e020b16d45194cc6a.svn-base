@@ -1,0 +1,75 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/font-awesome/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="/css/jquery-ui.theme.min.css">
+<link rel="stylesheet" href="/css/ui.jqgrid.css" type="text/css" />
+<link rel="stylesheet" href="/css/ui.jqgrid-bootstrap.css" type="text/css" />
+
+<link rel="stylesheet" href="/css/samples.css" type="text/css" />
+<link rel="stylesheet" href="/css/neo.css" type="text/css" />
+
+<div class="container-fluid">
+	<!-- Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">SRM</a></li>
+		<li class="breadcrumb-item active">SRM 등록</li>
+	</ol>
+	<div id="editor"></div>
+</div>
+<!-- /.container-fluid-->
+<!-- Bootstrap core JavaScript-->
+<script src="/js/jquery/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="/js/ckeditor.js" charset='utf-8'></script> -->
+<script src="https://cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>
+<script type="text/javascript" src="/js/sample.js" charset='utf-8'></script>
+
+
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		initSample();
+	});
+	
+	
+	CKEDITOR.plugins.registered['save'] = {
+		init : function(editor) {
+			var command = editor.addCommand('save', {
+				modes : {
+					wysiwyg : 1,
+					source : 1
+				},
+				exec : function(editor) { // Add here custom function for the save button
+					alert('You clicked the save button in CKEditor toolbar!');
+				}
+			});
+			editor.ui.addButton('Save', {
+				label : 'Save',
+				command : 'save'
+			});
+		}
+	}
+
+	$('.formSubmit').submit(function() {
+
+		var data = CKEDITOR.instances.editor1.getData();
+
+		$.ajax({
+			type : 'POST',
+			url : 'ck_bienban_1_luu.php',// url of phpcode save
+			data : {
+				data : data,
+			},
+			success : function() {
+
+			},
+		});
+		return (false);
+
+	});
+</script>

@@ -1,0 +1,9 @@
+#################################################################
+# TEST															#
+#################################################################
+itms.jdbc.url=jdbc:oracle:thin:@10.231.178.11:1581:HRSGCOND
+itms.jdbc.username=dsmisp
+itms.jdbc.password=dsmisp1357!
+
+#\ubcf5\ud638\ud654 \uacbd\ub85c
+decrypt.path=D:\\EGAPI\\

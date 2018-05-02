@@ -1,0 +1,20 @@
+#################################################################
+# TEST															#
+#################################################################
+itms.jdbc.url=jdbc:oracle:thin:@10.231.178.11:1581:HRSGCOND
+itms.jdbc.username=dsmisp
+itms.jdbc.password=dsmisp1357!
+
+# \uba54\uc77c\uc11c\ubc84
+mail.smtp.host=smtp.gmail.com
+mail.smtp.port=587
+mail.test=Y
+mail.admin.username="whgamwns"
+mail.admin.password="whgmawns45!@!"
+mail.admin.address=whgamwns@gmail.com
+mail.smtp.auth=true
+
+mail.test.address=heumjoon.cho@doosan.com
+
+#\ubcf5\ud638\ud654 \uacbd\ub85c
+decrypt.path=D:\\EGAPI\\

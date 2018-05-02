@@ -1,0 +1,91 @@
+package com.web.system.menu.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.web.common.command.CommandMap;
+import com.web.common.constants.Constants;
+import com.web.common.service.CommonServiceImpl;
+import com.web.common.util.SessionUtil;
+import com.web.system.menu.dao.ManageMenuDAO;
+
+/**
+ * 
+ * @파일명		: ManageMenuServiceImpl.java 
+ * @프로젝트	: ITMS
+ * @날짜		: 2018. 3. 14. 
+ * @작성자		: Cho HeumJun
+ * @설명
+ * <pre>
+ * 		
+ * </pre>
+ */
+@Service("manageMenuService")
+public class ManageMenuServiceImpl extends CommonServiceImpl implements ManageMenuService {
+
+	@Resource(name = "manageMenuDAO")
+	private ManageMenuDAO manageMenuDAO;
+
+	@Override
+	public Map<String, Object> getApproveAndNoticeList(CommandMap commandMap) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		// APPROVECNT리스트를 구한다.
+		result.put(Constants.MAIN_APPROVE_CNT_LIST, manageMenuDAO.getApproveCntList(commandMap.getMap()));
+		// 공지리스트를 구한다.
+		commandMap.put(Constants.SET_DB_PAGE_SIZE, 7);
+		commandMap.put(Constants.SET_DB_CUR_PAGE_NO, 1);
+		result.put(Constants.MAIN_NOTICE_LIST, manageMenuDAO.getNoticeMainList(commandMap.getMap()));
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getTreeMenuList(CommandMap commandMap) {
+		// 권한그룹이 선택되어 좌측메뉴를 취득할때는 선택된 권한그룹을 세션에 담는다.
+		if (commandMap.get("roleCode") != null && !"".equals(commandMap.get("roleCode"))) {
+			SessionUtil.setObject("roleCode", commandMap.get("roleCode"));
+		} else {
+			SessionUtil.setObject("roleCode", "");
+		}
+		// 메뉴의 트리리스트를 구한다.
+		return manageMenuDAO.getTreeMenuList(commandMap.getMap());
+	}
+
+	@Override
+	public String getDuplicationCnt(Map<String, Object> rowData) {
+		return Constants.RESULT_SUCCESS;
+	}
+	
+	@Override
+	public List<Map<String, Object>> getBookmarkList(CommandMap commandMap) {
+		// 권한그룹이 선택되어 좌측메뉴를 취득할때는 선택된 권한그룹을 세션에 담는다.
+		if (commandMap.get("roleCode") != null && !"".equals(commandMap.get("roleCode"))) {
+			SessionUtil.setObject("roleCode", commandMap.get("roleCode"));
+		} else {
+			SessionUtil.setObject("roleCode", "");
+		}
+		// 메뉴의 트리리스트를 구한다.
+		return manageMenuDAO.getBookmarkList(commandMap.getMap());
+	}
+	
+	@Override
+	public List<Map<String, Object>> getUserBookmarkList(CommandMap commandMap) {
+		// 권한그룹이 선택되어 좌측메뉴를 취득할때는 선택된 권한그룹을 세션에 담는다.
+		if (commandMap.get("roleCode") != null && !"".equals(commandMap.get("roleCode"))) {
+			SessionUtil.setObject("roleCode", commandMap.get("roleCode"));
+		} else {
+			SessionUtil.setObject("roleCode", "");
+		}
+		// 메뉴의 트리리스트를 구한다.
+		return manageMenuDAO.getUserBookmarkList(commandMap.getMap());
+	}
+	
+	@Override
+	public Map<String, Object> getMenuId(CommandMap commandMap) {
+		return manageMenuDAO.getMenuId(commandMap.getMap());
+	}	
+}

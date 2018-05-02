@@ -1,0 +1,30 @@
+package com.web.admin.stanAuthMgr.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
+import com.web.common.dao.CommonDAO;
+
+/**
+ * 
+ * @파일명		: StanAuthMgrDAO.java 
+ * @프로젝트	: ITMS
+ * @날짜		: 2018. 4. 12. 
+ * @작성자		: Cho HeumJun
+ * @설명
+ * <pre>
+ * 		
+ * </pre>
+ */
+@Repository("admin.stanAuthMgr.stanAuthMgrDAO")
+public class StanAuthMgrDAO extends CommonDAO
+{
+
+	public List<Map<String, Object>> stanAuthMgrMenuList(Map<String, Object> map)
+	{
+		return selectList("StanAuthMgr.stanAuthMgrMenuList", map);
+	}
+
+}

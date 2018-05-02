@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>ITMS</title>
+<!-- Bootstrap core CSS-->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom fonts for this template-->
+<link href="/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css">
+<!-- Custom styles for this template-->
+<link href="/css/sb-admin.css" rel="stylesheet">
+<style type="text/css">
+/*로그인*/
+.body_bg {
+	background: url(../images/login/bg.jpg) no-repeat;
+	background-size: cover;
+}
+</style>
+</head>
+
+<body class="body_bg">
+	<form id="login_form" name="login_form">
+		<div class="container" style="margin-top: 200px;">
+			<div class="card card-login mx-auto mt-5">
+				<div class="card-header">비밀번호 초기화</div>
+				<div class="card-body">
+					<div class="text-left mt-4 mb-5">
+						<h4>비밀번호를 잃어버리셨습니까?</h4>
+						<p>이메일 주소를 입력하시면 비밀번호를 재설정하는 방법에 대한 지침을 보내 드리겠습니다.</p>
+					</div>
+					<form>
+						<div class="form-group">
+							<input class="form-control" id="p_login_id" name="p_login_id" type="text" placeholder="아이디 입력..."> 
+						</div>
+						<div class="form-group">
+							<select class="form-control" id="p_sel_question" name="p_sel_question"> 
+						</div>
+						<div class="form-group">
+							<input class="form-control" style="margin-top: 2px;" id="p_answer" name="p_answer" type="text" placeholder="질문에 대한 답변을 입력..."> 
+						</div>
+						<a class="btn btn-primary btn-block" href="javascript:passwdInit();">초기화</a>
+					</form>
+					<br />
+					<div class="text-center">
+						<a class="small" href="login.do">로그인</a> / <a class="small mt-3" href="main.memberJoin.memberJoin.do">회원가입</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="/js/jqueryAjax.js"></script>
+<script type="text/javascript">
+$(function() {
+	getAjaxHtml($("#p_sel_question"), "main.memberJoin.memberQuestionSelectBoxDataList.do?sb_type=not&p_query=getMemberQuestionList", null, null);	
+});
+
+function passwdInit() {
+	
+	$.ajax({
+		type : 'POST',
+		url : 'main.passwdInit.passwdInitAction.do',
+		data : $("#login_form").serialize(),
+		dataType : 'json',
+		success : function(data) {
+			alert(data.resultMsg);
+			if(data.result == 'success') {
+			}
+		},
+		error : function(xhr, status, error) {
+			alert('시스템 오류입니다.\n전산담당자에게 문의해주세요.');
+		}
+	});
+}
+
+</script>
+
+
+
+</html>

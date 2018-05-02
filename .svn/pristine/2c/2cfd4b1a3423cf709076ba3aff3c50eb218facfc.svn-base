@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StanAuthMgr">
+
+	<select id="stanAuthMgrList" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		SELECT COUNT(*) OVER() AS CNT
+		      ,ICSAIM.SEQ_ID
+		      ,ICSAIM.STAND_AUTH_CODE
+		      ,ICSAIM.STAND_AUTH_CODE_NAME
+		      ,ICSAIM.DESCRIPTION
+		  FROM ITSM_COM_STAND_AUTH_INFO_M ICSAIM
+		 ORDER BY ICSAIM.ORDER_NUM ASC
+  	</select>
+
+	<select id="stanAuthMgrMenuList" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		SELECT T.*
+		     , COUNT(*) OVER() AS CNT
+		  FROM (SELECT LEVEL - 1 LEV
+		              ,A.SEQ_ID
+		              ,A.MENU_ID
+		              ,A.MENU_NAME
+		              ,A.MENU_URL
+		              ,A.PARENT_MENU_ID
+		              ,A.ORDER_NUM
+		              ,A.USE_YN
+		              ,A.UP_LINK
+		              ,CONNECT_BY_ISLEAF AS LEAF
+		          FROM ITSM_COM_MENU_INFO A
+		         WHERE 1 = 1
+		           AND A.USE_YN = 'Y'
+		        CONNECT BY PRIOR (A.MENU_ID) = A.PARENT_MENU_ID
+		         START WITH A.MENU_LEVEL = '1'
+		         ORDER SIBLINGS BY A.ORDER_NUM
+		    ) T	  
+  	</select>
+
+</mapper>

@@ -1,0 +1,20 @@
+package com.web.system.menu.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.web.common.command.CommandMap;
+import com.web.common.service.CommonService;
+
+public interface ManageMenuService extends CommonService {
+
+	List<Map<String, Object>> getTreeMenuList(CommandMap commandMap);
+
+	Map<String, Object> getApproveAndNoticeList(CommandMap commandMap);
+	
+	List<Map<String, Object>> getBookmarkList(CommandMap commandMap);
+	
+	List<Map<String, Object>> getUserBookmarkList(CommandMap commandMap);
+	
+	Map<String, Object> getMenuId(CommandMap commandMap);
+}

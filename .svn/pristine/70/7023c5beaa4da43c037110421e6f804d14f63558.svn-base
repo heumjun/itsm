@@ -1,0 +1,15 @@
+package com.web.system.user.service;
+
+import java.util.Map;
+
+import org.springframework.web.servlet.ModelAndView;
+
+import com.web.common.command.CommandMap;
+import com.web.common.service.CommonService;
+
+public interface ManageUserService extends CommonService {
+
+	ModelAndView savePopUpUserInfo(CommandMap commandMap);
+	
+	Map<String, Object> saveBookmarkEdit(CommandMap commandMap);
+}

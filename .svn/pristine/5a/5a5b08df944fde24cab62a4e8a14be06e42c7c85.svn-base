@@ -1,0 +1,7 @@
+package com.web.system.code.service;
+
+import com.web.common.service.CommonService;
+
+public interface ManageCodeService extends CommonService {
+
+}

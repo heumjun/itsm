@@ -1,0 +1,102 @@
+package com.web.login.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.web.common.command.CommandMap;
+import com.web.common.constants.Constants;
+import com.web.common.exceptionHandler.CommonException;
+import com.web.common.service.CommonServiceImpl;
+import com.web.common.util.CodeUtil;
+import com.web.common.util.MessageUtil;
+import com.web.common.util.SessionUtil;
+import com.web.login.dao.LoginDAO;
+
+/**
+ * 
+ * @파일명		: LoginServiceImpl.java 
+ * @프로젝트	: ITMS
+ * @날짜		: 2018. 3. 14. 
+ * @작성자		: Cho HeumJun
+ * @설명
+ * <pre>
+ * 		
+ * </pre>
+ */
+@Service("loginService")
+public class LoginServiceImpl extends CommonServiceImpl implements LoginService {
+
+	@Resource(name = "loginDAO")
+	private LoginDAO loginDAO;
+
+	@Override
+	public boolean isUser(CommandMap commandMap) {
+		
+		if (commandMap.get("loginID") != null) {
+			commandMap.put("loginID", CodeUtil.decrypt(commandMap.get("loginID") + ""));
+			SessionUtil.setObject("loginID", commandMap.get("loginID"));
+		}
+		// 로그인 유저를 DB로부터 취득
+		Object loginUser = loginDAO.selectLogin(commandMap.getMap());
+		if (loginUser != null) {
+			// 유저정보가 있는경우 유저정보를 세션에 설정
+			SessionUtil.setLoginUserObject(loginUser);
+			return true;
+		}
+		// 유저정보가 없는경우
+		return false;
+	}
+
+	@Override
+	public List<Map<String, Object>> popupList(CommandMap commandMap) {
+		return loginDAO.popupList(commandMap.getMap());
+	}
+	
+	@Override
+	public Map<String, String> userIdCheck(CommandMap commandMap) throws Exception {
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		Object result = loginDAO.selectOne("LoginUser.userIdCheck", commandMap.getMap());
+		if (Integer.parseInt(result.toString()) == 0) {
+			map.put(Constants.RESULT_KEY, Constants.RESULT_SUCCESS);
+			map.put(Constants.RESULT_MASAGE_KEY, "사용 가능한 아이디 입니다.");
+		} else {
+			map.put(Constants.RESULT_KEY, Constants.RESULT_FAIL);
+			map.put(Constants.RESULT_MASAGE_KEY, "이미 사용중인 아이디 입니다.");
+		}
+		
+		return map;
+	}
+	
+	@Override
+	public Map<String, String> userRegiste(CommandMap commandMap) throws Exception {
+		
+		String result = Constants.RESULT_FAIL;
+		
+		int insertResult = loginDAO.insert("LoginUser.userRegiste", commandMap.getMap());
+		if (insertResult == 0) {
+			result = Constants.RESULT_FAIL;
+		} else {
+			result = Constants.RESULT_SUCCESS;
+		}
+		
+		if (result.equals(Constants.RESULT_SUCCESS)) {
+			// 결과값에 따른 메시지를 담아 전송
+			return MessageUtil.getResultMessage(result);
+		} else if (result.equals(Constants.RESULT_FAIL)) {
+			// 실패한경우(실패 메시지가 없는 경우)
+			throw new CommonException();
+		} else {
+			// 실패한경우(실패 메시지가 있는 경우)
+			throw new CommonException(result);
+		}
+		
+	}
+
+}

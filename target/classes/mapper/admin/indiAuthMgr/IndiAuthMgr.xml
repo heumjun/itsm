@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="IndiAuthMgr">
+
+	<select id="indiAuthMgrList" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		SELECT T2.*
+	      FROM (SELECT T1.*
+		              ,COUNT(*) OVER() AS CNT
+		              ,FLOOR((ROWNUM - 1) / #{pageSize} + 1) AS PAGE
+		          FROM (SELECT ICUI.SEQ_ID
+		          		      ,ICUI.LOGIN_ID
+		                      ,ICUI.PASSWORD
+		                      ,ICUI.NAME
+		                      ,ICUI.E_MAIL
+		                      ,ICUI.COMPANY_NAME
+		                      ,ICUI.DEPARTMENT
+		                      ,ICUI.RANK
+		                      ,ICUI.PHONE1
+		                      ,ICUI.PHONE2
+		                      ,ICUI.TEL
+		                      ,ICUI.STATUS
+		                      ,(SELECT ICSAIM.STAND_AUTH_CODE
+		                          FROM ITSM_COM_STAND_AUTH_INFO_M ICSAIM
+		                         WHERE ICIAI.ICSAIM_SEQ_ID = ICSAIM.SEQ_ID) AS AUTH_CODE
+		                      ,(SELECT ICSAIM.STAND_AUTH_CODE_NAME
+		                          FROM ITSM_COM_STAND_AUTH_INFO_M ICSAIM
+		                         WHERE ICIAI.ICSAIM_SEQ_ID = ICSAIM.SEQ_ID) AS AUTH_CODE_NAME
+		                  FROM ITSM_COM_USER_INFO ICUI, ITSM_COM_INDI_AUTH_INFO ICIAI
+		                 WHERE 1 = 1
+		                   AND ICUI.SEQ_ID = ICIAI.ICUI_SEQ_ID
+		                   AND ICUI.STATUS = 'Y'
+		                 ORDER BY ICUI.NAME ASC) T1
+		         WHERE 1 = 1
+					<if test='p_login_id != null and !p_login_id.equalsIgnoreCase("")'>
+		           		AND LOGIN_ID = #{p_login_id}
+		           	</if>
+		           	<if test='p_name != null and !p_name.equalsIgnoreCase("")'>
+		           		AND NAME LIKE '%' || #{p_name} || '%'
+		           	</if>
+		           	<if test='p_auth_code != null and !p_auth_code.equalsIgnoreCase("")'>
+		           		AND AUTH_CODE = #{p_auth_code}
+		           	</if>
+		           
+		           ) T2
+	     WHERE PAGE = #{curPageNo}	  
+  	</select>
+
+  	<update id="indiAuthMgrSave" parameterType="java.util.Map">
+		UPDATE ITSM_COM_INDI_AUTH_INFO ICIAI
+		   SET ICIAI.ICSAIM_SEQ_ID = #{authValue}
+		      ,LAST_UPDATE_BY      = #{loginId}
+		      ,LAST_UPDATE_DATE    = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		 WHERE ICIAI.ICUI_SEQ_ID = #{userAuthSeq}
+	</update>
+
+</mapper>

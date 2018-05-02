@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SaveGtmBonusInfo">
+
+ 	<insert id="insert" parameterType="java.util.Map">
+		INSERT
+		  INTO ITSM_DLM_GTM_BONUS_INFO(
+		  	   SEQ_ID
+	  		 , ICUI_SEQ_ID 
+		     , BONUS_APPLY_YEAR 
+		     , BONUS_DAY 
+		     , BONUS_OCCUR_REASON 
+		     , CREATE_DATE 
+		     , CREATED_BY
+		     , LAST_UPDATE_DATE
+		     , LAST_UPDATE_BY
+			 )
+		VALUES(
+			   #{seq_id}
+			 , #{icui_seq_id}
+		     , #{year}
+		     , #{bonus_day}
+		     , #{bonus_occur_reason}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     )
+	</insert>
+	
+	<update id="update" parameterType="java.util.Map">
+		UPDATE ITSM_DLM_GTM_BONUS_INFO
+		   SET ICUI_SEQ_ID        = #{icui_seq_id}
+		      ,BONUS_APPLY_YEAR   = #{year}
+		      ,BONUS_DAY          = #{bonus_day}
+		      ,BONUS_OCCUR_REASON = #{bonus_occur_reason}
+		      ,LAST_UPDATE_DATE   = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		      ,LAST_UPDATE_BY     = #{loginId}
+		 WHERE SEQ_ID = #{seq_id}
+	</update>
+  	
+  	<delete id="delete" parameterType="java.util.Map">
+  		DELETE FROM ITSM_DLM_GTM_BONUS_INFO
+		 WHERE SEQ_ID = #{seq_id}
+  	</delete>
+  	
+</mapper>  	

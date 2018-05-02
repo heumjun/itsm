@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ManageMenu">
+	
+	<select id="treeMenuListByRole" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+			SELECT LEVEL-1 LEV
+		         , A.MENU_ID
+		         , A.MENU_NAME
+		         , A.MENU_URL
+		         , A.PARENT_MENU_ID
+		         , A.ORDER_NUM
+		         , A.USE_YN
+		         , A.UP_LINK
+		      FROM ITSM_COM_MENU_INFO A
+		     WHERE USE_YN = 'Y' CONNECT BY PRIOR(A.MENU_ID) = A.PARENT_MENU_ID START WITH A.MENU_LEVEL = '1'
+		     ORDER SIBLINGS BY A.ORDER_NUM
+	</select>
+	
+	<select id="menuId" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap">
+  		  SELECT STM.MENU_ID
+			FROM STX_DIS_PROGRAM SDP
+			     ,STX_DIS_MENU STM
+			     ,STX_DIS_MENU STM_UP
+			WHERE STM.PGM_ID = SDP.PGM_ID
+			AND STM.UP_MENU_ID = STM_UP.MENU_ID
+			AND STM_UP.USE_YN = 'Y'
+		    AND SDP.FILE_URL = #{fileUrl}
+  	</select>
+ 	
+</mapper>

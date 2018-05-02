@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SaveManageMenu">
+
+	<select id="duplicate" parameterType="java.util.Map" resultType="int" >
+		SELECT count(*) as cnt
+		  FROM ITSM_COM_MENU_INFO
+		 WHERE MENU_ID = #{menu_id}
+  	</select>
+	
+ 	<insert id="insert" parameterType="java.util.Map">
+	    INSERT
+		  INTO ITSM_COM_MENU_INFO(SEQ_ID , MENU_ID , MENU_NAME , MENU_LEVEL , PARENT_MENU_ID , MENU_URL , USE_YN , ORDER_NUM 
+		  		, CREATE_DATE, CREATED_BY, LAST_UPDATE_DATE, LAST_UPDATE_BY, UP_LINK )
+		VALUES( #{seq_id}
+			 , (SELECT TO_CHAR('menu_') || TRIM(TO_CHAR(SUBSTR(MAX(MENU_ID), 6)+1, '0000')) FROM ITSM_COM_MENU_INFO)
+		     , #{menu_name}
+		     , #{menu_level}
+		     , #{parent_menu_id}
+		     , #{menu_url}
+		     , #{use_yn}
+		     , #{order_num}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     , #{up_link})
+	</insert>
+	
+	<update id="update" parameterType="java.util.Map">	    
+	    UPDATE ITSM_COM_MENU_INFO
+		   SET MENU_NAME = #{menu_name}
+		     , MENU_LEVEL = #{menu_level}
+		     , PARENT_MENU_ID = #{parent_menu_id}
+		     , MENU_URL = #{menu_url}
+		     , USE_YN = #{use_yn}
+		     , ORDER_NUM = #{order_num}
+		     , LAST_UPDATE_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , LAST_UPDATE_BY = #{loginId}
+		     , UP_LINK = #{up_link}
+		 WHERE SEQ_ID = #{seq_id}
+	</update>
+	
+	<delete id="delete" parameterType="java.util.Map">
+	    DELETE FROM ITSM_COM_MENU_INFO
+		 WHERE SEQ_ID = #{seq_id}	    
+	</delete>
+	
+</mapper>

@@ -1,0 +1,17 @@
+#ID GENERATION \uc0ad\uc81c\ubd88\uac00
+debug.idgnr.allocate.idblock=idgen
+
+common.default.succ=\ucc98\ub9ac\uac00 \uc644\ub8cc\ub418\uc5c8\uc2b5\ub2c8\ub2e4.
+common.default.fail=[\ucc98\ub9ac\uc2e4\ud328]\ucc98\ub9ac\uac00 \uc2e4\ud328\ud558\uc600\uc2b5\ub2c8\ub2e4.
+common.default.duplication=[\ucc98\ub9ac\uc2e4\ud328] \uc911\ubcf5\ub41c \ub370\uc774\ud130\uac00 \uc788\uc2b5\ub2c8\ub2e4.{0}
+
+
+# \uba54\uc77c\uc11c\ubc84
+mail.smtp.host=smtp.naver.com
+mail.smtp.port=465
+mail.admin.username=jjs6582
+mail.admin.password=whgmawns54
+mail.admin.address=jjs6582@naver.com
+mail.smtp.debug=false
+
+mail.test.address=heumjoon.cho@doosan.com

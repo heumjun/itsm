@@ -1,0 +1,10 @@
+package com.web.system.code.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.web.common.dao.CommonDAO;
+
+@Repository("manageCodeDAO")
+public class ManageCodeDAO extends CommonDAO {
+	
+}

@@ -1,0 +1,38 @@
+package com.web.system.code.controller;
+
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.web.common.command.CommandMap;
+import com.web.common.controller.CommonController;
+import com.web.system.code.service.ManageCodeService;
+
+@Controller
+public class ManageCodeController extends CommonController {
+	
+	@Resource(name = "manageCodeService")
+	private ManageCodeService manageCodeService;
+
+	@RequestMapping(value = "manageCode.do")
+	public ModelAndView manageCode(CommandMap commandMap) {
+		return getUserRoleAndLink(commandMap);
+	}
+	
+	@RequestMapping(value = "manageMasterCodeList.do")
+	public @ResponseBody Map<String, Object> manageMasterCodeList(CommandMap commandMap) {
+		return manageCodeService.getGridList(commandMap);
+	}
+	
+	@RequestMapping(value = "manageDetailCodeList.do")
+	public @ResponseBody Map<String, Object> manageDetailCodeList(CommandMap commandMap) {
+		return manageCodeService.getGridList(commandMap);
+	}
+	
+	
+}

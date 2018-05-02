@@ -1,0 +1,83 @@
+#################################################################
+# TEST, LIVE \uacf5\ud1b5\uc0ac\uc6a9(\uc8fc\uc758) : \ubb38\uc11c\uad00\ub9ac FTP \uc811\uc18d\uc815\ubcf4            #
+#################################################################
+letter.fax.ftp.server=172.16.2.90
+letter.fax.ftp.port=21
+letter.fax.ftp.id=dcruser
+letter.fax.ftp.password=dcr123 
+letter.fax.ftp.test=Y
+#################################################################
+# TEST															#
+#################################################################
+# idc \uba54\uc77c\uc11c\ubc84 (LOCAL TEST\uc6a9) 
+#mail.smtp.host=203.169.4.20
+
+# EP \uba54\uc77c\uc11c\ubc84
+mail.smtp.host=211.51.145.57
+mail.smtp.port=25
+mail.test=N
+mail.test.address=jjs6582@onestx.com
+
+itms.jdbc.url=jdbc:oracle:thin:@10.231.178.11:1581:HRSGCOND
+itms.jdbc.username=dsmisp
+itms.jdbc.password=dsmisp1357!
+
+erp.jdbc.url=jdbc:oracle:thin:@172.16.2.12:1561:STXUTF
+erp.jdbc.username=apps
+erp.jdbc.password=apps
+
+dps.jdbc.url=jdbc:oracle:thin:@172.16.2.12:1661:STXORA2
+dps.jdbc.username=stxdp
+dps.jdbc.password=stxdp123
+ 
+#srm.jdbc.url=jdbc:oracle:thin:@172.16.2.10:1531:STXDIMS
+#srm.jdbc.username=stxdis
+#srm.jdbc.password=stxdis123
+
+#erp.jdbc.url=jdbc:oracle:thin:@172.16.2.16:1521:STXERP
+#erp.jdbc.username=apps
+#erp.jdbc.password=apps
+
+#dps.jdbc.url=jdbc:oracle:thin:@172.16.2.19:1521:STXORA
+#dps.jdbc.username=stxdp
+#dps.jdbc.password=stxdp123
+
+
+# \ubb38\uc11c\uad00\ub9ac FTP\ub294 TEST\uac00 \uc5c6\uae30\uc5d0 \ud14c\uc2a4\ud2b8\uc2dc\uc5d0\ub294 TEST \uc784\uc2dc\ud3f4\ub354\ub85c \uc811\uadfc\ud1a0\ub85d \uad00\ub9ac
+letter.fax.ftp.folder.buyerfax=\\TEST
+letter.fax.ftp.folder.comments=\\TEST
+letter.fax.ftp.folder.dcr=\\TEST
+letter.fax.ftp.folder.receive=\\TEST
+letter.fax.ftp.folder.send=\\TEST
+
+#################################################################
+# LIVE															#
+#################################################################
+#mail.smtp.host=211.51.145.57
+#mail.smtp.port=25
+#mail.test=N
+#mail.test.address=kyunghohihi@onestx.com
+
+#srm.jdbc.url=jdbc:oracle:thin:@172.16.2.10:1531:STXDIMS
+#srm.jdbc.username=stxdis
+#srm.jdbc.password=stxdis123
+
+#erp.jdbc.url=jdbc:oracle:thin:@172.16.2.16:1521:STXERP
+#erp.jdbc.username=apps
+#erp.jdbc.password=apps
+
+# \ubb38\uc11c\uad00\ub9ac FTP\ub294 TEST\uac00 \uc5c6\uae30\uc5d0 \ud14c\uc2a4\ud2b8\uc2dc\uc5d0\ub294 TEST \uc784\uc2dc\ud3f4\ub354\ub85c \uc811\uadfc\ud1a0\ub85d \uad00\ub9ac
+#dps.jdbc.url=jdbc:oracle:thin:@172.16.2.19:1521:STXORA
+#dps.jdbc.username=stxdp
+#dps.jdbc.password=stxdp123
+
+# \ubb38\uc11c\uad00\ub9ac FTP \ud3f4\ub354
+#letter.fax.ftp.folder.buyerfax=\\BUYERFAX
+#letter.fax.ftp.folder.comments=\\COMMENTS
+#letter.fax.ftp.folder.dcr=\\DCR
+#letter.fax.ftp.folder.receive=\\RECEIVE
+#letter.fax.ftp.folder.send=\\SEND
+
+
+#\ubcf5\ud638\ud654 \uacbd\ub85c
+decrypt.path=D:\\EGAPI\\

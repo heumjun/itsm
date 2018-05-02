@@ -1,0 +1,16 @@
+package com.web.system.program.service;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.web.common.service.CommonServiceImpl;
+import com.web.system.program.dao.ProgramDAO;
+
+@Service("programService")
+public class ProgramServiceImpl extends CommonServiceImpl implements ProgramService {
+
+	@Resource(name = "programDAO")
+	private ProgramDAO programDAO;
+
+}

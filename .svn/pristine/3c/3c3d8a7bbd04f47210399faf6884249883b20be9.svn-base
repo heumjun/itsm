@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="LoginUser">
+  
+	<select id="selectLogin" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		SELECT LOGIN_ID 
+		     , PASSWORD 
+		     , NAME 
+		     , E_MAIL 
+		     , COMPANY_NAME 
+		     , DEPARTMENT 
+		     , RANK 
+		     , CONTRACT_ADDRESS1 
+		     , CONTRACT_ADDRESS2 
+		     , CONTRACT_ADDRESS3 
+		     , STATUS 
+		     , CREATE_DATE 
+		     , CREATED_BY 
+		     , LAST_UPDATE_DATE 
+		     , LAST_UPDATE_BY 
+		  FROM ITSM_COM_USER_INFO
+		 WHERE LOGIN_ID = #{adminId}
+  	</select>
+  	
+  	<insert id="userRegiste" parameterType="java.util.Map">
+  		INSERT
+		  INTO ITSM_COM_USER_INFO(
+		  	   SEQ_ID
+	  		 , LOGIN_ID 
+		     , PASSWORD 
+		     , NAME 
+		     , E_MAIL 
+		     , COMPANY_NAME 
+		     , DEPARTMENT 
+		     , RANK 
+		     , CONTRACT_ADDRESS1 
+		     , CONTRACT_ADDRESS2 
+		     , CONTRACT_ADDRESS3 
+		     , STATUS 
+		     , CREATE_DATE 
+		     , CREATED_BY 
+		     , LAST_UPDATE_DATE 
+		     , LAST_UPDATE_BY 
+			 )
+		VALUES(
+			   itsm_com_user_info_seq.nextval
+			 , #{p_login_id}
+		     , #{p_password}
+		     , #{p_name}
+		     , #{p_e_mail}
+		     , #{p_company_name}
+		     , #{p_department}
+		     , #{p_rank}
+		     , #{p_contract_address1}
+		     , NULL
+		     , NULL
+		     , 'Y'
+		     , SYSDATE
+		     , #{p_login_id}
+		     , SYSDATE
+		     , #{p_login_id}
+		     )
+  	</insert>
+
+</mapper>

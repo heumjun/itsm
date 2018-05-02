@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+
+.container {
+	margin-top: 100px;
+}
+
+a {
+	font-size: 1em;
+	color: #333333;
+	text-decoration: none;
+}
+
+a:link {
+	font-size: 1em;
+	color: #555555;
+	text-decoration: none;
+}
+
+a:visited {
+	font-size: 1em;
+	color: #555555;
+	text-decoration: none;
+}
+
+a:hover {
+	font-size: 1em;
+	color: #468BE1;
+	text-decoration: underline;
+}
+

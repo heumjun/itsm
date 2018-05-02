@@ -1,0 +1,6 @@
+package com.web.system.program.service;
+
+import com.web.common.service.CommonService;
+
+public interface ProgramService extends CommonService {
+}

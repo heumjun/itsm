@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean name="egovIdMenuGnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixMenuId" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_MENU_ID"/>
+	</bean>
+
+	<bean name="mixPrefixMenuId" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="MENU_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>
+
+	<bean name="egovIdMajorCodeGnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixMajorCode" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_MAJOR_CODE"/>
+	</bean>
+
+	<bean name="mixPrefixMajorCode" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="CC_M" />
+		<property name="cipers" value="3" />
+		<property name="fillChar" value="0" />
+	</bean>
+	
+	<bean name="egovIdSqtype001GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype001" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_COM_USER_INFO"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype001" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE001_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>
+	
+	<bean name="egovIdSqtype002GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype002" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_COM_MENU_INFO"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype002" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE002_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>
+
+	<bean name="egovIdSqtype003GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype003" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_COM_STAND_AUTH_INFO_M"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype003" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE003_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype004GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype004" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_COM_STAND_AUTH_INFO_D"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype004" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE004_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype005GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype005" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_COM_INDI_AUTH_INFO"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype005" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE005_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype006GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype006" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_COM_CODE_INFO_MASTER"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype006" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE006_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype007GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype007" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_COM_CODE_INFO_DETAIL"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype007" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE007_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype008GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype008" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_COM_SMS_NOTICE_HISTORY"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype008" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE008_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype009GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype009" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_DLM_WEEK_RESULT_MGR"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype009" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE009_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype010GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype010" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_DLM_GTM_BASE_INFO"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype010" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE010_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype011GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype011" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_DLM_GTM_BONUS_INFO"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype011" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE011_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>
+
+	<bean name="egovIdSqtype012GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype012" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_DLM_GTM_REQ_INFO"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype012" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE012_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype013GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype013" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_IS_NOTICE_INFO"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype013" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE013_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype014GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype014" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_IS_BBS_INFO"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype014" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE014_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype015GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype015" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_IS_RESOURCE_ROOM_INFO"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype015" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE015_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>		
+	
+	<bean name="egovIdSqtype016GnrService" class="egovframework.rte.fdl.idgnr.impl.EgovTableIdGnrService" destroy-method="destroy">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="strategy" ref="mixPrefixSqtype016" />
+		<property name="blockSize" 	value="1"/>
+		<property name="table"	   	value="ITSM_IDS"/>
+		<property name="tableName"	value="ITSM_COM_ATTACH_INFO"/>
+	</bean>
+
+	<bean name="mixPrefixSqtype016" class="egovframework.rte.fdl.idgnr.impl.strategy.EgovIdGnrStrategyImpl">
+		<property name="prefix" value="ITSM_SQTYPE016_" />
+		<property name="cipers" value="5" />
+		<property name="fillChar" value="0" />
+	</bean>
+
+
+	
+</beans>

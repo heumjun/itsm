@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<bean id="itsmSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="itsmSqlSession" />
+	</bean>
+	<bean id="itsmSqlSession" class="com.web.common.factory.RefreshableSqlSessionFactoryBean">
+		<property name="dataSource" ref="itsmSource" />
+		<property name="mapperLocations" value="classpath:/mapper/**/*.xml" />
+	</bean>
+    
+</beans>

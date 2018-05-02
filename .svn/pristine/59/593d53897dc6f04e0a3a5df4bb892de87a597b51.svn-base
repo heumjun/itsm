@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ManageUserList">
+
+	<select id="getUserRankList" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		SELECT D.MEDIUM_CODE_KOR_NAME AS SB_NAME
+		      ,D.MEDIUM_CODE AS SB_VALUE
+		      , CASE WHEN D.MEDIUM_CODE = #{p_rank_code} THEN 'selected=\"selected\"' 
+		           ELSE '' 
+		           END AS SB_SELECTED
+		  FROM ITSM_COM_CODE_INFO_MASTER M 
+		      ,ITSM_COM_CODE_INFO_DETAIL D
+		 WHERE 1 = 1
+		   AND M.SEQ_ID = D.ICCIM_SEQ_ID
+		   AND D.USE_YN = 'Y'
+		   AND M.SEQ_ID = 'ITSM_SQTYPE006_00004'
+		 ORDER BY D.ORDER_NUM 		
+	</select>
+
+	<select id="list" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		SELECT T2.*
+		  FROM (SELECT T1.*
+		             , FLOOR((ROWNUM - 1) / #{pageSize} + 1 ) AS PAGE
+		          FROM (SELECT SEQ_ID
+						      ,LOGIN_ID
+						      ,PASSWORD
+						      ,NAME
+						      ,E_MAIL
+						      ,COMPANY_NAME
+						      ,DEPARTMENT
+						      ,RANK AS RANK_CODE
+						      ,NVL2(RANK
+						           ,(SELECT ICCID.MEDIUM_CODE_KOR_NAME
+						              FROM ITSM_COM_CODE_INFO_DETAIL ICCID
+						             WHERE ICCID.MEDIUM_CODE = RANK
+						               AND ROWNUM = 1)
+						           ,'') AS RANK
+						      ,CONTRACT_ADDRESS1
+						      ,CONTRACT_ADDRESS2
+						      ,CONTRACT_ADDRESS3
+						      ,STATUS
+						      ,STATUS AS STATUS_CHANGED
+						      ,QUESTION AS QUESTION_CODE
+						      ,NVL2(RANK
+						           ,(SELECT ICCID.MEDIUM_CODE_KOR_NAME
+						              FROM ITSM_COM_CODE_INFO_DETAIL ICCID
+						             WHERE ICCID.MEDIUM_CODE = QUESTION
+						               AND ROWNUM = 1)
+						           ,'') AS QUESTION
+						      ,ANSWER
+						      ,CREATE_DATE
+						      ,CREATED_BY
+						      ,LAST_UPDATE_DATE
+						      ,LAST_UPDATE_BY
+						  FROM ITSM_COM_USER_INFO
+						 WHERE 1=1
+						 <if test='p_login_id != null and !p_login_id.equalsIgnoreCase("")'>
+						 	AND LOGIN_ID LIKE '%' || #{p_login_id} || '%'
+						 </if>
+						 <if test='p_name != null and !p_name.equalsIgnoreCase("")'>
+						 	AND NAME LIKE '%' || #{p_name} || '%'
+						 </if>
+						 <if test='p_sel_status != null and !p_sel_status.equalsIgnoreCase("")'>
+						 	AND STATUS = #{p_sel_status}
+						 </if>
+						 ORDER BY NAME 
+		) T1 ) T2
+		 WHERE PAGE = #{curPageNo}
+  	</select>
+  	
+  	<select id="selectTotalRecord" parameterType="java.util.Map" resultType="String">
+		SELECT COUNT(*) AS CNT
+		  FROM ITSM_COM_USER_INFO
+		 WHERE 1=1
+		 <if test='p_login_id != null and !p_login_id.equalsIgnoreCase("")'>
+		 	AND LOGIN_ID LIKE '%' || #{p_login_id} || '%'
+		 </if>
+		 <if test='p_name != null and !p_name.equalsIgnoreCase("")'>
+		 	AND NAME LIKE '%' || #{p_name} || '%'
+		 </if>
+		 <if test='p_sel_status != null and !p_sel_status.equalsIgnoreCase("")'>
+		 	AND STATUS = #{p_sel_status}
+		 </if>
+  	</select>
+  	
+  	<select id="list1" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+  		<![CDATA[
+			SELECT *
+			  FROM (SELECT ROWNUM AS RNUM, A.*
+			          FROM (SELECT LOGIN_ID
+			                      ,NAME
+			                      ,E_MAIL
+			                      ,COMPANY_NAME
+			                  FROM ITSM_COM_USER_INFO) A
+			         WHERE ROWNUM <= #{start} + #{length}
+			         ORDER BY ROWNUM DESC)
+			 WHERE ROWNUM <= #{length}
+			 ORDER BY RNUM ASC
+		 ]]>
+  	</select>
+  	
+</mapper>

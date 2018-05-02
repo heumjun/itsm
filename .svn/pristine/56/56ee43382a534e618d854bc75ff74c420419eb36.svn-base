@@ -1,0 +1,84 @@
+package com.web.dlm.geuntaeMgr.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.web.common.command.CommandMap;
+import com.web.common.controller.CommonController;
+import com.web.dlm.geuntaeMgr.service.DlmGeuntaeMgrService;
+
+/**
+ * 
+ * @파일명		: DlmGeuntaeMgrController.java 
+ * @프로젝트	: ITMS
+ * @날짜		: 2018. 4. 18. 
+ * @작성자		: Cho HeumJun
+ * @설명
+ * <pre>
+ * 		근태관리
+ * </pre>
+ */
+@Controller
+public class DlmGeuntaeMgrController extends CommonController
+{
+
+	@Resource(name = "dlm.geuntaeMgr.dlmGeuntaeMgrService")
+	private DlmGeuntaeMgrService dlmGeuntaeMgrService;
+	
+	
+	@RequestMapping(value = "dlm.geuntaeMgr.gtmBaseInfo.do")
+	public ModelAndView gtmBaseInfo(CommandMap commandMap)
+	{
+		return getUserRoleAndLink(commandMap);
+	}
+	
+	@RequestMapping(value = "dlm.geuntaeMgr.gtmBaseInfoList.do")
+	public @ResponseBody Map<String, Object> gtmBaseInfoList(CommandMap commandMap)
+	{
+		return dlmGeuntaeMgrService.gtmBaseInfoList(commandMap);
+	}
+	
+	/**
+	 * 
+	 * @메소드명	: monthView
+	 * @날짜		: 2018. 4. 19.
+	 * @작성자		: Cho HeumJun
+	 * @설명
+	 * <pre>
+	 *		근태현황(월) 페이지
+	 * </pre>
+	 * @param commandMap
+	 * @return
+	 */
+	@RequestMapping(value = "dlm.geuntaeMgr.monthView.do")
+	public ModelAndView monthView(CommandMap commandMap)
+	{
+		return getUserRoleAndLink(commandMap);
+	}
+	
+	/**
+	 * 
+	 * @메소드명	: geuntaeList
+	 * @날짜		: 2018. 4. 19.
+	 * @작성자		: Cho HeumJun
+	 * @설명
+	 * <pre>
+	 *		근태현황(월) 리스트
+	 * </pre>
+	 * @param commandMap
+	 * @return
+	 */
+	@RequestMapping(value = "dlm.geuntaeMgr.monthViewList.do")
+	public @ResponseBody List<Map<String, Object>> monthViewList(CommandMap commandMap)
+	{
+		return dlmGeuntaeMgrService.monthViewList(commandMap);
+	}
+	
+}

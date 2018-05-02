@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberJoin">
+
+	<resultMap id="suggestionMaps"  type="java.util.HashMap" >
+        <result column="CLAUSE"	 	property="CLAUSE"	javaType="java.lang.String" jdbcType="CLOB" />
+        <result column="POLICY" 	property="POLICY" 	javaType="java.lang.String" jdbcType="CLOB" />
+	</resultMap>
+
+	<select id="getSuggestion" parameterType="java.util.Map" resultMap="suggestionMaps">
+		SELECT CLAUSE
+		     , POLICY 
+		  FROM ITSM_COM_SUG_INFO
+	</select>
+
+	<select id="userIdCheck" parameterType="java.util.Map" resultType="String">
+		SELECT COUNT(*) AS CNT
+		  FROM ITSM_COM_USER_INFO
+		 WHERE LOGIN_ID = #{p_login_id}
+  	</select>
+  
+  	<insert id="memberJoinRegiste" parameterType="java.util.Map">
+		INSERT
+		  INTO ITSM_COM_USER_INFO(
+		  	   SEQ_ID
+	  		 , LOGIN_ID 
+		     , PASSWORD 
+		     , NAME 
+		     , E_MAIL 
+		     , COMPANY_NAME 
+		     , DEPARTMENT 
+		     , RANK 
+		     , BUSINESS_ROLE 
+		     , HOME_ADDRESS
+		     , PHONE1 
+		     , TEL 
+		     , STATUS 
+		     , QUESTION
+		     , ANSWER
+		     , CREATE_DATE 
+		     , CREATED_BY 
+		     , LAST_UPDATE_DATE 
+		     , LAST_UPDATE_BY 
+			 )
+		VALUES(
+			   #{seq_id}
+			 , #{p_login_id}
+		     , #{p_password}
+		     , #{p_name}
+		     , #{p_e_mail}
+		     , #{p_company_name}
+		     , #{p_department}
+		     , #{p_sel_position}
+		     , #{p_business_role}
+		     , #{p_home_address}
+		     , #{p_phone1}
+		     , #{p_tel}
+		     , 'Y'
+		     , #{p_sel_question}
+		     , #{p_answer}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{p_login_id}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{p_login_id}
+		     )
+  	</insert>
+
+</mapper>

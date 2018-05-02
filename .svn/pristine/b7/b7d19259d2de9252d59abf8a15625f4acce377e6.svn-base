@@ -1,0 +1,50 @@
+package com.web.admin.menuMgr.service;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.web.admin.menuMgr.dao.ManageMenuDAO;
+import com.web.common.command.CommandMap;
+import com.web.common.service.CommonServiceImpl;
+import com.web.common.util.SessionUtil;
+
+/**
+ * 
+ * @파일명 : ManageMenuServiceImpl.java
+ * @프로젝트 : ITMS
+ * @날짜 : 2018. 3. 14.
+ * @작성자 : Cho HeumJun
+ * @설명
+ * 
+ *     <pre>
+ * 
+ *     </pre>
+ */
+@Service("admin.menuMgr.manageMenuService")
+public class ManageMenuServiceImpl extends CommonServiceImpl implements ManageMenuService
+{
+
+	@Resource(name = "admin.menuMgr.manageMenuDAO")
+	private ManageMenuDAO manageMenuDAO;
+
+	@Override
+	public List<Map<String, Object>> getTreeMenuList(CommandMap commandMap)
+	{
+		// 권한그룹이 선택되어 좌측메뉴를 취득할때는 선택된 권한그룹을 세션에 담는다.
+		if (commandMap.get("roleCode") != null && !"".equals(commandMap.get("roleCode")))
+		{
+			SessionUtil.setObject("roleCode", commandMap.get("roleCode"));
+		}
+		else
+		{
+			SessionUtil.setObject("roleCode", "");
+		}
+		// 메뉴의 트리리스트를 구한다.
+		return manageMenuDAO.getTreeMenuList(commandMap.getMap());
+	}
+
+}

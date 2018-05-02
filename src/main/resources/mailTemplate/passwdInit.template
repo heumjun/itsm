@@ -1,0 +1,6 @@
+<font size=2><p><b> ${name}님 반갑습니다.  </b></p></font>
+<font size=2><p><b> ITSM 관리자입니다. </b></p></font>
+<font size=2><p><b> 귀하께서 요청하신 비밀번호 초기화가 실행 되었습니다. </b></p></font>
+<font size=2><p><b> 아이디 	 : ${login_id} </b></p></font>
+<font size=2><p><b> 비밀번호 : ${init_password} </b></p></font>
+<font size=2><p><b> 확인 하시기 바랍니다. </b></p></font>

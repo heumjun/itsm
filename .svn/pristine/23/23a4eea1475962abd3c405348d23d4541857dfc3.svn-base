@@ -1,0 +1,127 @@
+package com.web.login.controller;
+
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.web.common.command.CommandMap;
+import com.web.common.constants.Constants;
+import com.web.common.controller.CommonController;
+import com.web.login.service.LoginService;
+
+/**
+ * 
+ * @파일명		: LoginController.java 
+ * @프로젝트	: ITMS
+ * @날짜		: 2018. 3. 14. 
+ * @작성자		: Cho HeumJun
+ * @설명
+ * <pre>
+ * 		
+ * </pre>
+ */
+@Controller
+public class LoginController extends CommonController {
+	@Resource(name = "loginService")
+	private LoginService loginService;
+
+	/**
+	 * 
+	 * @메소드명	: login
+	 * @날짜		: 2018. 3. 5.
+	 * @작성자		: Cho HeumJun
+	 * @설명
+	 * <pre>
+	 *		로그인 페이지 이동
+	 * </pre>
+	 * @param commandMap
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "login.do")
+	public ModelAndView login(CommandMap commandMap) throws Exception {
+		return new ModelAndView(Constants.LOGIN_LINK);
+	}
+	
+	@RequestMapping(value = "register.do")
+	public ModelAndView userRegister(CommandMap commandMap) throws Exception {
+		return new ModelAndView(Constants.REGISTER_LINK);
+	}
+	
+	@RequestMapping(value = "userIdCheck.do")
+	public @ResponseBody Map<String, String> userIdCheck(CommandMap commandMap) throws Exception {
+		return loginService.userIdCheck(commandMap);
+	}
+	
+	
+	@RequestMapping(value = "userRegiste.do")
+	public @ResponseBody Map<String, String> userRegiste(CommandMap commandMap) throws Exception {
+		return loginService.userRegiste(commandMap);
+	}	
+		
+	
+	@RequestMapping(value = "forgotPassword.do")
+	public ModelAndView forgotPassword(CommandMap commandMap) throws Exception {
+		return new ModelAndView(Constants.FORGOTPASSWORD_LINK);
+	}
+	
+	/**
+	 * 
+	 * @메소드명	: loginCheck
+	 * @날짜		: 2018. 3. 5.
+	 * @작성자		: Cho HeumJun
+	 * @설명
+	 * <pre>
+	 *		로그인 체크 : 유저인경우 메인페이지 이동 유저가 아닌경우 에러 메시지
+	 * </pre>
+	 * @param commandMap
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "loginCheck.do")
+	public ModelAndView loginCheck(CommandMap commandMap, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		
+		if (loginService.isUser(commandMap)) {
+			mav.addObject("loginID", commandMap.get("loginID"));
+			mav.addObject(Constants.VIEW_PARENT_URL, Constants.MENU_URL);
+			
+			// 팝업리스트 호출
+			//mav.addObject("popupList", loginService.popupList(commandMap));
+			mav.setViewName(Constants.MENU_URL + Constants.JSP_MAINFRAME);
+		} else {
+			mav.addObject("errMessage", "로그인 정보가 틀립니다. 확인후 다시 시도해 주세요.");
+			mav.setViewName(Constants.LOGIN_LINK);
+		}
+		return mav;
+	}
+	
+	/**
+	 * 
+	 * @메소드명	: logout
+	 * @날짜		: 2018. 3. 5.
+	 * @작성자		: Cho HeumJun
+	 * @설명
+	 * <pre>
+	 *		로그아웃
+	 * </pre>
+	 * @param commandMap
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "logout.do")
+	public ModelAndView logout(CommandMap commandMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.getSession().setAttribute(Constants.SESSION_LOGIN_USER_OBJ, null);
+		return new ModelAndView(Constants.LOGIN_LINK);
+	}
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="LoginUser">
+
+	<select id="selectLogin" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		SELECT ICUI.LOGIN_ID
+		      ,ICUI.PASSWORD
+		      ,ICUI.NAME
+		      ,ICUI.E_MAIL
+		      ,ICUI.COMPANY_NAME
+		      ,ICUI.DEPARTMENT
+		      ,ICUI.RANK
+		      ,ICUI.CONTRACT_ADDRESS1
+		      ,ICUI.CONTRACT_ADDRESS2
+		      ,ICUI.CONTRACT_ADDRESS3
+		      ,ICUI.STATUS
+		      ,(SELECT ICSAIM.STAND_AUTH_CODE
+		          FROM ITSM_COM_STAND_AUTH_INFO_M ICSAIM
+		         WHERE ICIAI.ICSAIM_SEQ_ID = ICSAIM.SEQ_ID) AS AUTH_CODE
+		      ,(SELECT ICSAIM.STAND_AUTH_CODE_NAME
+		          FROM ITSM_COM_STAND_AUTH_INFO_M ICSAIM
+		         WHERE ICIAI.ICSAIM_SEQ_ID = ICSAIM.SEQ_ID) AS AUTH_CODE_NAME
+		  FROM ITSM_COM_USER_INFO ICUI, ITSM_COM_INDI_AUTH_INFO ICIAI
+		 WHERE 1 = 1
+		   AND ICUI.SEQ_ID = ICIAI.ICUI_SEQ_ID(+)
+		   AND ICUI.LOGIN_ID = <if test='loginID != null'>#{loginID}</if>
+						  <if test='login_id != null and login_id != ""'>#{login_id}</if>
+						  <if test='loginID == null and login_id == null'>#{loginId}</if>
+		   AND ICUI.STATUS = 'Y'		  
+  	</select>
+
+</mapper>

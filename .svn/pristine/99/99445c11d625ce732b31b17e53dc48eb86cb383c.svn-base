@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="commonSelectBox">
+
+  	<select id="getMemberQuestionList" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		SELECT D.MEDIUM_CODE_KOR_NAME AS SB_NAME
+		      ,D.MEDIUM_CODE AS SB_VALUE 
+		FROM ITSM_COM_CODE_INFO_MASTER M, ITSM_COM_CODE_INFO_DETAIL D
+		WHERE 1=1 
+		AND M.SEQ_ID = D.ICCIM_SEQ_ID
+		AND D.USE_YN = 'Y'
+		AND M.SEQ_ID = 'ITSM_SQTYPE006_00003'
+		ORDER BY D.ORDER_NUM
+  	</select>
+  	
+  	<select id="getMemberPositionList" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+	  	SELECT D.MEDIUM_CODE_KOR_NAME AS SB_NAME
+		      ,D.MEDIUM_CODE AS SB_VALUE
+		  FROM ITSM_COM_CODE_INFO_MASTER M 
+		      ,ITSM_COM_CODE_INFO_DETAIL D
+		 WHERE 1 = 1
+		   AND M.SEQ_ID = D.ICCIM_SEQ_ID
+		   AND D.USE_YN = 'Y'
+		   AND M.SEQ_ID = 'ITSM_SQTYPE006_00004'
+		 ORDER BY D.ORDER_NUM
+	</select>		 
+</mapper>

@@ -1,0 +1,49 @@
+package com.web.srm.login.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.web.common.command.CommandMap;
+import com.web.common.service.CommonService;
+
+/**
+ * 
+ * @파일명		: LoginService.java 
+ * @프로젝트	: SRM
+ * @날짜		: 2018. 3. 5. 
+ * @작성자		: Cho HeumJun
+ * @설명
+ * <pre>
+ * 		로그인 서비스
+ * </pre>
+ */
+public interface LoginService extends CommonService {
+
+	/**
+	 * 
+	 * @메소드명	: isUser
+	 * @날짜		: 2018. 3. 5.
+	 * @작성자		: Cho HeumJun
+	 * @설명
+	 * <pre>
+	 *		유저 체크
+	 * </pre>
+	 * @param commandMap
+	 * @return
+	 */
+	boolean isUser(CommandMap commandMap);
+
+	/**
+	 * 
+	 * @메소드명	: popupList
+	 * @날짜		: 2018. 3. 5.
+	 * @작성자		: Cho HeumJun
+	 * @설명
+	 * <pre>
+	 *		로그인 시 팝업 리스트 호출
+	 * </pre>
+	 * @param commandMap
+	 * @return
+	 */
+	public List<Map<String, Object>> popupList(CommandMap commandMap);
+}

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="StanAuthMgr">
+
+	<select id="stanAuthMgrList" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		SELECT COUNT(*) OVER() AS CNT
+		      ,ICSAIM.SEQ_ID
+		      ,ICSAIM.STAND_AUTH_CODE
+		      ,ICSAIM.STAND_AUTH_CODE_NAME
+		      ,ICSAIM.DESCRIPTION
+		      ,ICSAIM.ORDER_NUM
+		  FROM ITSM_COM_STAND_AUTH_INFO_M ICSAIM
+		 ORDER BY ICSAIM.ORDER_NUM ASC
+  	</select>
+
+	<select id="stanAuthMgrMenuList" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		SELECT COUNT(*) OVER() AS CNT
+		      ,TT.*
+		  FROM (SELECT T.ICSAID_SEQ_ID
+	                  ,T.ICSAIM_SEQ_ID
+	                  ,ICMI.SEQ_ID AS MENU_SEQ_ID
+		              ,NVL2(T.ICMI_SEQ_ID, 'Y', 'N') AUTH
+		              ,NVL2(T.ICMI_SEQ_ID, 'Y', 'N') AUTH_CHANGED
+		              ,LEVEL - 1 LEV
+		              ,ICMI.MENU_ID
+		              ,LPAD(' > ' , 4*(LEVEL-1)) || ICMI.MENU_NAME AS MENU_NAME
+		              ,ICMI.MENU_URL
+		              ,ICMI.PARENT_MENU_ID
+		              ,ICMI.ORDER_NUM
+		              ,ICMI.USE_YN
+		              ,ICMI.UP_LINK
+		              ,CONNECT_BY_ISLEAF AS LEAF
+		          FROM ITSM_COM_MENU_INFO ICMI
+		              ,(SELECT ICSAID.SEQ_ID AS ICSAID_SEQ_ID -- 상세권한 시컨스
+	                          ,ICSAIM.SEQ_ID AS ICSAIM_SEQ_ID
+	                          ,ICSAID.ICMI_SEQ_ID AS ICMI_SEQ_ID -- 상세권한 메뉴
+	                      FROM ITSM_COM_STAND_AUTH_INFO_M ICSAIM
+	                          ,ITSM_COM_STAND_AUTH_INFO_D ICSAID
+	                     WHERE ICSAIM.SEQ_ID = ICSAID.ICSAIM_SEQ_ID
+		                 <choose>
+		                 	<when test='p_stanAuthCode != null and !p_stanAuthCode.equalsIgnoreCase("")'>
+		                 		AND ICSAIM.SEQ_ID = #{p_stanAuthCode}
+		                	</when>
+		                	<otherwise>
+		                		AND ICSAIM.SEQ_ID = ( SELECT A.SEQ_ID FROM (SELECT ICSAIM.SEQ_ID AS SEQ_ID
+	                                          FROM ITSM_COM_STAND_AUTH_INFO_M ICSAIM
+	                                         WHERE ROWNUM = 1
+	                                         ORDER BY ICSAIM.ORDER_NUM ASC) A ) 
+		                	</otherwise>
+		                 </choose>
+		               ) T
+		         WHERE 1 = 1
+		           AND ICMI.SEQ_ID = T.ICMI_SEQ_ID(+)
+		           AND ICMI.USE_YN = 'Y'
+		        CONNECT BY PRIOR (ICMI.MENU_ID) = ICMI.PARENT_MENU_ID
+		         START WITH ICMI.MENU_LEVEL = '1'
+		         ORDER SIBLINGS BY ICMI.ORDER_NUM) TT
+  	</select>
+  	
+  	<!-- insert 전 중복 체크  -->
+  	<select id="getStanAuthDuplicationCnt" parameterType="java.util.Map" resultType="int" >
+		SELECT COUNT(*)	AS CNT
+		  FROM ITSM_COM_STAND_AUTH_INFO_M ICSAIM
+		 WHERE STAND_AUTH_CODE = #{stand_auth_code}
+  	</select>
+  	
+  	<insert id="stanAuthDataInsert" parameterType="java.util.Map">
+		INSERT
+		  INTO ITSM_COM_STAND_AUTH_INFO_M(
+		  	   SEQ_ID
+	  		 , STAND_AUTH_CODE 
+		     , STAND_AUTH_CODE_NAME 
+		     , DESCRIPTION
+		     , ORDER_NUM
+		     , CREATE_DATE 
+		     , CREATED_BY 
+		     , LAST_UPDATE_DATE 
+		     , LAST_UPDATE_BY 
+			 )
+		VALUES(
+			   #{seq_id}
+			 , (SELECT TO_CHAR('SAC_') || TRIM(TO_CHAR(SUBSTR(MAX(STAND_AUTH_CODE), 6)+1, '000')) FROM ITSM_COM_STAND_AUTH_INFO_M)
+		     , #{stand_auth_code_name}
+		     , #{description}
+		     , #{order_num}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     )
+	</insert>
+	
+	<update id="stanAuthDataUpdate" parameterType="java.util.Map">
+		UPDATE ITSM_COM_STAND_AUTH_INFO_M
+		   SET STAND_AUTH_CODE_NAME = #{stand_auth_code_name}
+		     , DESCRIPTION = #{description}
+		     , ORDER_NUM = #{order_num}
+		     , LAST_UPDATE_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , LAST_UPDATE_BY = #{loginId}
+		 WHERE SEQ_ID = #{seq_id}
+	</update>
+	
+	<delete id="stanAuthDataDelete" parameterType="java.util.Map">
+  		DELETE FROM ITSM_COM_STAND_AUTH_INFO_M
+		 WHERE SEQ_ID = #{seq_id}
+  	</delete>
+  	
+  	<delete id="stanAuthMasterToDetailDataDelete" parameterType="java.util.Map">
+  		DELETE FROM ITSM_COM_STAND_AUTH_INFO_D
+		 WHERE ICSAIM_SEQ_ID = #{seq_id}
+  	</delete>
+  	
+  	
+  	<insert id="stanAuthDetailDataInsert" parameterType="java.util.Map">
+		INSERT
+		  INTO ITSM_COM_STAND_AUTH_INFO_D(
+		  	   SEQ_ID
+	  		 , ICSAIM_SEQ_ID 
+		     , ICMI_SEQ_ID 
+		     , CREATE_DATE 
+		     , CREATED_BY 
+		     , LAST_UPDATE_DATE 
+		     , LAST_UPDATE_BY 
+			 )
+		VALUES(
+			   #{seq_id}
+			 , #{icsaim_seq_id}
+			 , #{menu_seq_id}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     )
+	</insert>
+	
+	<delete id="stanAuthDetailDataDelete" parameterType="java.util.Map">
+  		DELETE FROM ITSM_COM_STAND_AUTH_INFO_D
+		 WHERE SEQ_ID = #{icsaid_seq_id}
+  	</delete>
+  	
+  	<select id="stanAuthDetailUpDataDuplication" parameterType="java.util.Map" resultType="int" >
+		SELECT COUNT(*) AS CNT
+		  FROM ITSM_COM_STAND_AUTH_INFO_D ICMI
+		      ,(SELECT SEQ_ID
+		          FROM ITSM_COM_MENU_INFO ICMI
+		         WHERE MENU_ID = #{parent_menu_id}
+		       ) T
+		 WHERE ICMI.ICSAIM_SEQ_ID = #{icsaim_seq_id}
+		   AND ICMI.ICMI_SEQ_ID = T.SEQ_ID
+  	</select>
+
+	<insert id="stanAuthDetailUpDataInsert" parameterType="java.util.Map">
+		INSERT
+		  INTO ITSM_COM_STAND_AUTH_INFO_D(
+		  	   SEQ_ID
+	  		 , ICSAIM_SEQ_ID 
+		     , ICMI_SEQ_ID 
+		     , CREATE_DATE 
+		     , CREATED_BY 
+		     , LAST_UPDATE_DATE 
+		     , LAST_UPDATE_BY 
+			 )
+		VALUES(
+			   #{seq_id}
+			 , #{icsaim_seq_id}
+			 , (SELECT ICMI.SEQ_ID FROM ITSM_COM_MENU_INFO ICMI WHERE MENU_ID = #{parent_menu_id})
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     )
+	</insert>
+	
+	<select id="stanAuthDetailUpDeleteDataDuplication" parameterType="java.util.Map" resultType="int" >
+		SELECT COUNT(*) AS CNT
+		  FROM ITSM_COM_STAND_AUTH_INFO_D ICMI
+		      ,(SELECT SEQ_ID
+		          FROM ITSM_COM_MENU_INFO ICMI
+		         WHERE PARENT_MENU_ID = #{parent_menu_id}
+		       ) T
+		 WHERE ICMI.ICSAIM_SEQ_ID = #{icsaim_seq_id}
+		   AND ICMI.ICMI_SEQ_ID = T.SEQ_ID
+  	</select>
+  	
+  	<delete id="stanAuthDetailUpDataDelete" parameterType="java.util.Map">
+  		DELETE FROM ITSM_COM_STAND_AUTH_INFO_D
+		 WHERE ICSAIM_SEQ_ID = #{icsaim_seq_id}
+		   AND ICMI_SEQ_ID = (SELECT ICMI.SEQ_ID
+		                        FROM ITSM_COM_MENU_INFO ICMI
+		                       WHERE MENU_ID = #{parent_menu_id})
+  	</delete>
+  	
+	
+
+</mapper>

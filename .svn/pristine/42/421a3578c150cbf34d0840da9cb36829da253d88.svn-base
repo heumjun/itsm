@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %5p [%c] %m%n" />
+        </Console>
+		<RollingFile name="filelog" fileName="c:/source/log/Log.log" filePattern="c:/source/log/Log_%i.%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="%d %5p %m%n" />
+   			<Policies>
+   				<!-- 이 용량이 초과되면 아래 DefaultRolloverStrategy 정책만큼 넘버링 할거다. -->
+    			<SizeBasedTriggeringPolicy size="20MB" />
+   			</Policies>
+   			<!-- 0부터 50개 까지만 만들거다 50개 초과되면 파일이 더생성안된다. -->
+   			<DefaultRolloverStrategy max="50" fileIndex="min" />
+  		</RollingFile>
+    </Appenders>
+    
+    <Loggers>
+        <Logger name="com" level="DEBUG" additivity="false">
+            <AppenderRef ref="filelog" />
+            <AppenderRef ref="console" />
+        </Logger>
+	    <Logger name="jdbc.sqlonly" level="DEBUG" additivity="false">  
+	        <AppenderRef ref="filelog"/>
+	        <AppenderRef ref="console"/>  
+	    </Logger>
+        <Logger name="jdbc.resultsettable" level="DEBUG" additivity="false">
+        	<AppenderRef ref="filelog"/>
+            <AppenderRef ref="console"/>
+        </Logger>
+        <!-- <Logger name="java.sql.PreparedStatement" level="DEBUG" additivity="false">
+            <AppenderRef ref="filelog" />
+            <AppenderRef ref="console" />
+        </Logger> -->
+          <!-- log SQL with timing information, post execution -->
+		<!-- <Logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="filelog" />
+        </Logger> -->
+        <!-- <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="console" />
+            <AppenderRef ref="filelog" />
+        </Logger> -->
+        <Root level="OFF">
+            <AppenderRef ref="filelog" />
+        </Root>
+    </Loggers>
+</Configuration>

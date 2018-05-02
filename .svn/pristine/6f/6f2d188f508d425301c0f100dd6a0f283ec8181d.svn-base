@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SaveManageCode">
+
+  	<!-- insert 전 중복 체크  -->
+  	<select id="duplicate" parameterType="java.util.Map" resultType="int" >
+		SELECT COUNT(*) AS CNT
+		  FROM ITSM_COM_CODE_INFO_MASTER
+		 WHERE MAJOR_CODE = #{major_code}
+  	</select>
+  	
+ 	<insert id="insert" parameterType="java.util.Map">
+		INSERT
+		  INTO ITSM_COM_CODE_INFO_MASTER(
+		  	   SEQ_ID
+	  		 , MAJOR_CODE 
+		     , MAJOR_CODE_KOR_NAME 
+		     , MAJOR_CODE_ENG_NAME 
+		     , DESCRIPTION 
+		     , USE_YN 
+		     , ORDER_NUM 
+		     , CREATE_DATE 
+		     , CREATED_BY
+		     , LAST_UPDATE_DATE
+		     , LAST_UPDATE_BY
+			 )
+		VALUES(
+			   #{seq_id}
+			 , (SELECT TO_CHAR('CC_M') || TRIM(TO_CHAR(SUBSTR(MAX(MAJOR_CODE), 5)+1, '000')) FROM ITSM_COM_CODE_INFO_MASTER)
+		     , #{major_code_kor_name}
+		     , #{major_code_eng_name}
+		     , #{description}
+		     , #{use_yn}
+		     , #{order_num}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     )
+	</insert>
+	
+	<update id="update" parameterType="java.util.Map">
+		UPDATE ITSM_COM_CODE_INFO_MASTER
+		   SET MAJOR_CODE_KOR_NAME = #{major_code_kor_name}
+		      ,MAJOR_CODE_ENG_NAME = #{major_code_eng_name}
+		      ,DESCRIPTION         = #{description}
+		      ,USE_YN              = #{use_yn}
+		      ,ORDER_NUM           = #{order_num}
+		      ,LAST_UPDATE_DATE    = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		      ,LAST_UPDATE_BY      = #{loginId}
+		 WHERE SEQ_ID = #{seq_id}
+	</update>
+  	
+  	<delete id="delete" parameterType="java.util.Map">
+  		DELETE FROM ITSM_COM_CODE_INFO_MASTER
+		 WHERE SEQ_ID = #{seq_id}
+  	</delete>
+  	
+  	<!-- insert 전 중복 체크  -->
+  	<select id="detailDuplicate" parameterType="java.util.Map" resultType="int" >
+		SELECT COUNT(*) AS CNT
+		  FROM ITSM_COM_CODE_INFO_DETAIL
+		 WHERE MEDIUM_CODE = #{medium_code}
+  	</select>
+  	
+ 	<insert id="detailInsert" parameterType="java.util.Map">
+		INSERT
+		  INTO ITSM_COM_CODE_INFO_DETAIL(
+		  	   SEQ_ID
+		  	 , ICCIM_SEQ_ID 
+	  		 , MEDIUM_CODE 
+		     , MEDIUM_CODE_KOR_NAME 
+		     , MEDIUM_CODE_ENG_NAME 
+		     , DESCRIPTION 
+		     , USE_YN 
+		     , ORDER_NUM 
+		     , CREATE_DATE 
+		     , CREATED_BY
+		     , LAST_UPDATE_DATE
+		     , LAST_UPDATE_BY
+			 )
+		VALUES(
+			   #{seq_id}
+			 , #{p_seq_id}  
+			 , (SELECT NVL(MAX( #{p_major_code} || TO_CHAR('_D') || TRIM(TO_CHAR(SUBSTR(MAX(MEDIUM_CODE), 10) + 1, '000')) ), #{p_major_code} || '_D001')
+				  FROM ITSM_COM_CODE_INFO_DETAIL
+				 WHERE ICCIM_SEQ_ID = #{p_seq_id}
+				 GROUP BY ICCIM_SEQ_ID)
+		     , #{medium_code_kor_name}
+		     , #{medium_code_eng_name}
+		     , #{description}
+		     , #{use_yn}
+		     , #{order_num}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		     , #{loginId}
+		     )
+	</insert>
+	
+	<update id="detailUpdate" parameterType="java.util.Map">
+		UPDATE ITSM_COM_CODE_INFO_DETAIL
+		   SET MEDIUM_CODE_KOR_NAME = #{medium_code_kor_name}
+		      ,MEDIUM_CODE_ENG_NAME = #{medium_code_eng_name}
+		      ,DESCRIPTION         = #{description}
+		      ,USE_YN              = #{use_yn}
+		      ,ORDER_NUM           = #{order_num}
+		      ,LAST_UPDATE_DATE    = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		      ,LAST_UPDATE_BY      = #{loginId}
+		 WHERE SEQ_ID = #{seq_id}
+	</update>
+  	
+  	<delete id="detailDelete" parameterType="java.util.Map">
+  		DELETE FROM ITSM_COM_CODE_INFO_DETAIL
+		 WHERE SEQ_ID = #{seq_id}
+  	</delete>
+  	
+</mapper>

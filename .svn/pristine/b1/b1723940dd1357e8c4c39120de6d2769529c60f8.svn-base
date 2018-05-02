@@ -1,0 +1,19 @@
+#################################################################
+# TEST															#
+#################################################################
+itms.jdbc.url=jdbc:oracle:thin:@10.231.178.11:1581:HRSGCOND
+itms.jdbc.username=dsmisp
+itms.jdbc.password=dsmisp1357!
+
+# \uba54\uc77c\uc11c\ubc84
+mail.smtp.host=smtp.naver.com
+mail.smtp.port=465
+mail.admin.username=jjs6582
+mail.admin.password=whgmawns54
+mail.admin.address=jjs6582@naver.com
+mail.smtp.debug=false
+
+mail.test.address=heumjoon.cho@doosan.com
+
+# \uacb0\uc7ac \uc2b9\uc778 \uad00\ub9ac\uc790
+approval.admin=boseong.kong

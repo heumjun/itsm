@@ -1,0 +1,27 @@
+package com.web.system.code.service;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.web.common.service.CommonServiceImpl;
+import com.web.system.code.dao.ManageCodeDAO;
+
+/**
+ * 
+ * @파일명		: ManageCodeServiceImpl.java 
+ * @프로젝트	: ITMS
+ * @날짜		: 2018. 3. 20. 
+ * @작성자		: Cho HeumJun
+ * @설명
+ * <pre>
+ * 		
+ * </pre>
+ */
+@Service("manageCodeService")
+public class ManageCodeServiceImpl extends CommonServiceImpl implements ManageCodeService {
+
+	@Resource(name = "manageCodeDAO")
+	private ManageCodeDAO manageCodeDAO;
+
+}

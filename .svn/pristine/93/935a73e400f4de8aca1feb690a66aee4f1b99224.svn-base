@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ManageMenu">
+	
+	<select id="treeMenuListByRole" parameterType="java.util.Map" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap" >
+		    SELECT LEVEL - 1 LEV
+			      ,A.MENU_ID
+			      ,A.SEQ_ID
+			      ,A.MENU_NAME
+			      ,A.MENU_URL
+			      ,A.PARENT_MENU_ID
+			      ,A.ORDER_NUM
+			      ,A.USE_YN
+			      ,A.UP_LINK
+			      ,CONNECT_BY_ISLEAF AS LEAF
+			  FROM ITSM_COM_MENU_INFO A
+			      ,(SELECT ICSAID.ICMI_SEQ_ID
+			          FROM (SELECT ICSAIM.SEQ_ID
+			                  FROM (SELECT ICIAI.ICSAIM_SEQ_ID
+			                          FROM ITSM_COM_USER_INFO      ICUI
+			                              ,ITSM_COM_INDI_AUTH_INFO ICIAI
+			                         WHERE ICUI.SEQ_ID = ICIAI.ICUI_SEQ_ID
+			                           AND ICUI.LOGIN_ID = <if test='loginID != null'>#{loginID}</if>
+														  <if test='login_id != null and login_id != ""'>#{login_id}</if>
+														  <if test='loginID == null and login_id == null'>#{loginId}</if>) T
+			                      ,ITSM_COM_STAND_AUTH_INFO_M ICSAIM
+			                 WHERE T.ICSAIM_SEQ_ID = ICSAIM.SEQ_ID) TT
+			              ,ITSM_COM_STAND_AUTH_INFO_D ICSAID
+			         WHERE TT.SEQ_ID = ICSAID.ICSAIM_SEQ_ID) TTT
+			 WHERE 1 = 1
+			<if test="up_link == null or up_link == '' ">
+	     		AND A.USE_YN = 'Y'
+	       	</if>
+			   AND A.SEQ_ID = TTT.ICMI_SEQ_ID
+			CONNECT BY PRIOR (A.MENU_ID) = A.PARENT_MENU_ID
+			 START WITH A.MENU_LEVEL = '1'
+			 ORDER SIBLINGS BY A.ORDER_NUM
+					     
+	</select>
+ 	
+</mapper>

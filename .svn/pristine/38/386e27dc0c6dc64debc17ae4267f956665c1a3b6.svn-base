@@ -1,0 +1,13 @@
+package com.web.system.user.service;
+
+import java.util.Map;
+
+import org.springframework.web.servlet.View;
+
+import com.web.common.command.CommandMap;
+import com.web.common.service.CommonService;
+
+public interface ManageUserService extends CommonService {
+
+	View manageUserListExcelExport(CommandMap commandMap, Map<String, Object> modelMap);
+}

@@ -1,0 +1,46 @@
+package com.web.system.user.controller;
+
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+
+import com.web.common.command.CommandMap;
+import com.web.common.controller.CommonController;
+import com.web.system.menu.service.ManageMenuService;
+import com.web.system.user.service.ManageUserService;
+
+@Controller
+public class ManageUserController extends CommonController {
+	@Resource(name = "manageUserService")
+	private ManageUserService manageUserService;
+	
+	@Resource(name = "manageMenuService")
+	private ManageMenuService manageMenuService;
+
+	@RequestMapping(value = "manageUser.do")
+	public ModelAndView linkSelectedMenu(CommandMap commandMap) {
+		return getUserRoleAndLink(commandMap);
+	}
+
+	@RequestMapping(value = "manageUserList.do")
+	public @ResponseBody Map<String, Object> getGridListAction(CommandMap commandMap) {
+		return manageUserService.getGridList(commandMap);
+	}
+
+	@RequestMapping(value = "saveManageUser.do")
+	public @ResponseBody Map<String, String> saveGridListAction(CommandMap commandMap) throws Exception {
+		return manageUserService.saveGridList(commandMap);
+	}
+	
+	@RequestMapping(value = "manageUserListExcelExport.do")
+	public View manageUserListExcelExport(CommandMap commandMap, Map<String, Object> modelMap) throws Exception {
+		return manageUserService.manageUserListExcelExport(commandMap, modelMap);
+	}
+
+}
